@@ -36,6 +36,7 @@ def crearUsuarios():
         dependencia = form.dependencia.data
         salario = form.salario.data
         rol = form.rol.data
+        return f"Crear usuario: {correo}" + " Password: " + password
         # Lógica para crear un usuario en base de datos
     return render_template('crear-usuario.html', form=form)
 
@@ -44,12 +45,12 @@ def listarUsuarios():
     # Lógica para consultar todos los usuarios de la base de datos
     return render_template('ver-listar-usuarios.html')
 
-@app.route('/usuarios/editar', methods=['GET', 'POST'])
-def editarUsuarios():
+@app.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
+def editarUsuarios(id):
     form = EditarUsuarioForm()
     if (request.method == 'GET'):
         # Lógica para traer la información del usuario a editar
-        form.id.data = 183
+        form.id.data = id
         form.correo.data = 'johndoe@mail.com'
         form.nombres.data = 'John'
         form.apellidos.data = 'Doe'
@@ -78,12 +79,13 @@ def editarUsuarios():
         dependencia = form.dependencia.data
         salario = form.salario.data
         rol = form.rol.data
+        return f"Editar usuario: {correo}" + " Nombres: " + nombres + " Código: " + id
 
-@app.route('/usuarios/ver', methods=['GET'])
-def verUsuarios():
+@app.route('/usuarios/ver/<int:id>', methods=['GET'])
+def verUsuarios(id):
     # Lógica para consultar el usuario en la base de datos
     form = VerUsuarioForm()
-    form.id.data = 183
+    form.id.data = id
     form.correo.data = 'johndoe@mail.com'
     form.nombres.data = 'John'
     form.apellidos.data = 'Doe'
@@ -98,12 +100,12 @@ def verUsuarios():
     form.rol.data = 'usuarioFinal'
     return render_template('ver-usuario.html', form=form)
 
-@app.route('/usuarios/retroalimentacion', methods=['GET', 'POST'])
-def generarRetroalimentacion():
+@app.route('/usuarios/retroalimentacion/<int:id>', methods=['GET', 'POST'])
+def generarRetroalimentacion(id):
     form = GenerarRetroalimentacionUsuarioForm()
     if (request.method == 'GET'):
         # Lógica para consultar la retroalimentación
-        form.id.data = 183
+        form.id.data = id
         form.correo.data = 'johndoe@mail.com'
         form.nombres.data = 'John'
         form.apellidos.data = 'Doe'
@@ -115,6 +117,7 @@ def generarRetroalimentacion():
         id = form.id.data
         puntaje = form.puntaje.data
         comentarios = form.comentarios.data
+        return f"Guardar retroalimentación: {puntaje}" + " Password: " + comentarios
 
 @app.route('/usuarios/perfil', methods=['GET'])
 def perfilUsuario():

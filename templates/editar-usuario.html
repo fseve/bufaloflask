@@ -45,7 +45,8 @@
             <div class="card-header">
               <h3 class="card-title">Editar usuario</h3>
             </div>
-            <form>
+            <form action="" method="post">
+              {{ form.csrf_token }}
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
@@ -143,6 +144,7 @@
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary float-right">Guardar</button>
+                <a class="btn btn-primary" href="{{'/usuarios/listar'}}">Volver</a>
               </div>
             </form>
           </div>
