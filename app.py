@@ -1,7 +1,8 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from forms.forms import *
 import datetime as dt
+from usuarios_dummy import *
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -144,3 +145,9 @@ def perfilUsuario():
 def dashboard():
     # Lógica para consultar la información que se renderiza en el dashboard
     return render_template('dashboard.html')
+
+@app.route('/listar-usuarios-dummy', methods=['GET'])
+def listarUsuariosDummy():
+    return jsonify(
+        usuarios_dummy
+    )
