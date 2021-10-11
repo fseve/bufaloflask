@@ -22,3 +22,18 @@ class CrearUsuarioForm(FlaskForm):
 	dependencia = StringField('Dependencia', validators=[DataRequired(message="Este campo es requerido")])
 	salario = IntegerField('Salario', widget=NumberInput(min=0, step=1), validators=[DataRequired(message="Este campo es requerido")])
 	rol = SelectField('Rol', choices = [('usuarioFinal', 'Usuario final'), ('administrador', 'Administrador'), ('superAdministrador', 'SuperAdministrador')])
+
+class EditarUsuarioForm(FlaskForm):
+	id = StringField('ID', render_kw={'readonly': True}, validators=[DataRequired(message="Este campo es requerido")])
+	correo = EmailField('Correo electrónico', validators=[DataRequired(message="Este campo es requerido")])
+	nombres = StringField('Nombres', validators=[DataRequired(message="Este campo es requerido")])
+	apellidos = StringField('Apellidos', validators=[DataRequired(message="Este campo es requerido")])
+	edad = IntegerField('Edad', widget=NumberInput(min=18, max=200, step=1), validators=[DataRequired(message="Este campo es requerido")])
+	genero = SelectField('Género', choices = [('masculino', 'Masculino'), ('femenino', 'Femenino')])
+	cargo = StringField('Cargo', validators=[DataRequired(message="Este campo es requerido")])
+	fechaIngreso = DateField('Fecha de ingreso', validators=[DataRequired(message="Este campo es requerido")])
+	tipoContrato = StringField('Tipo de contrato', validators=[DataRequired(message="Este campo es requerido")])
+	fechaTerminoContrato = DateField('Fecha término contrato', validators=[DataRequired(message="Este campo es requerido")])
+	dependencia = StringField('Dependencia', validators=[DataRequired(message="Este campo es requerido")])
+	salario = IntegerField('Salario', widget=NumberInput(min=0, step=1), validators=[DataRequired(message="Este campo es requerido")])
+	rol = SelectField('Rol', choices = [('usuarioFinal', 'Usuario final'), ('administrador', 'Administrador'), ('superAdministrador', 'SuperAdministrador')])
