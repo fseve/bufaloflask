@@ -19,15 +19,16 @@
   <div class="login-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="../../index2.html" class="h1"><b>Búfalo</b>
+        <a href="#" class="h1"><b>Búfalo</b>
         </a>
         <p class="h2">Gestión de empleados</p>
       </div>
       <div class="card-body">
         <p class="login-box-msg">Ingresar credenciales</p>
-        <form action="../../index3.html" method="post">
+        <form action="" method="post">
+          {{ form.csrf_token }}
           <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Correo electrónico" required>
+            {{ form.correo(class_="form-control", placeholder="Correo electrónico")}}
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -35,7 +36,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Contraseña" required>
+            {{ form.password(class_="form-control", placeholder="Contraseña")}}
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>

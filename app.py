@@ -1,9 +1,17 @@
+import os
 from flask import Flask, render_template
+from forms.forms import *
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+app.secret_key = os.urandom(24)
 
-@app.route('/')
-@app.route('/login')
+
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def index():
-    return render_template('login.html')
+    form = LoginForm()
+    if(form.validate_on_submit()):
+        correo = form.correo.data
+        return f"Bienvenido{correo}"
+    return render_template('login.html', form=form)
