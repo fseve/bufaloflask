@@ -5,6 +5,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/toastr/toastr.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css')}}">
 {% endblock %}
@@ -71,15 +75,18 @@
                       <td>$1.500.000</td>
                       <td>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default">
-                              <i class="fas fa-eye"></i>
-                            </button>
-                            <button type="button" class="btn btn-default">
-                              <i class="fas fa-edit"></i>
-                            </button>
-                            <button type="button" class="btn btn-default">
-                              <i class="fas fa-trash"></i>
-                            </button>
+                          <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver detalle" href="{{'/usuarios/ver'}}">
+                            <i class="fas fa-eye"></i>
+                          </a>
+                          <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Generar retroalimentación" href="{{'/usuarios/retroalimentacion'}}"">
+                            <i class="fas fa-comment-dots"></i>
+                          </a>
+                          <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" href="{{'/usuarios/editar'}}">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return onClickEliminar();">
+                            <i class="fas fa-trash"></i>
+                          </a>
                         </div>
                       </td>
                     </tr>
@@ -91,17 +98,20 @@
                         <td>Desarrollador</td>
                         <td>$2.500.000</td>
                         <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-eye"></i>
-                                </button>
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                          <div class="btn-group">
+                            <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver detalle" href="{{'/usuarios/ver'}}">
+                              <i class="fas fa-eye"></i>
+                            </a>
+                            <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Generar retroalimentación" href="{{'/usuarios/retroalimentacion'}}"">
+                              <i class="fas fa-comment-dots"></i>
+                            </a>
+                            <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" href="{{'/usuarios/editar'}}">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return onClickEliminar();">
+                              <i class="fas fa-trash"></i>
+                            </a>
+                          </div>
                         </td>
                     </tr>
                     <tr class="text-center">
@@ -112,17 +122,20 @@
                         <td>Administrador</td>
                         <td>$3.500.000</td>
                         <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-eye"></i>
-                                </button>
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                          <div class="btn-group">
+                            <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver detalle" href="{{'/usuarios/ver'}}">
+                              <i class="fas fa-eye"></i>
+                            </a>
+                            <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Generar retroalimentación" href="{{'/usuarios/retroalimentacion'}}"">
+                              <i class="fas fa-comment-dots"></i>
+                            </a>
+                            <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" href="{{'/usuarios/editar'}}">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return onClickEliminar();">
+                              <i class="fas fa-trash"></i>
+                            </a>
+                          </div>
                         </td>
                     </tr>
                     <tr class="text-center">
@@ -133,17 +146,20 @@
                         <td>Escritor</td>
                         <td>$500.000</td>
                         <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-eye"></i>
-                                </button>
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button type="button" class="btn btn-default">
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                          <div class="btn-group">
+                            <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver detalle" href="{{'/usuarios/ver'}}">
+                              <i class="fas fa-eye"></i>
+                            </a>
+                            <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Generar retroalimentación" href="{{'/usuarios/retroalimentacion'}}"">
+                              <i class="fas fa-comment-dots"></i>
+                            </a>
+                            <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" href="{{'/usuarios/editar'}}">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return onClickEliminar();">
+                              <i class="fas fa-trash"></i>
+                            </a>
+                          </div>
                         </td>
                     </tr>
                   </tbody>
@@ -162,8 +178,41 @@
   <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js')}}"></script>
   <!-- Bootstrap 4 -->
   <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- SweetAlert2 -->
+  <script src="{{ url_for('static', filename='plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+  <!-- Toastr -->
+  <script src="{{ url_for('static', filename='plugins/toastr/toastr.min.js')}}"></script>
   <!-- AdminLTE App -->
   <script src="{{ url_for('static', filename='dist/js/adminlte.min.js')}}"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="{{ url_for('static', filename='dist/js/demo.js')}}"></script>
+
+  <script type="text/javascript">
+    function onClickEliminar () {
+      Swal.fire({
+        title: '¿Desea eliminar este usuario?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        showCancelButton: true,
+        cancelButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            '¡Eliminado!',
+            'El usuario ha sido eliminado correctamente.',
+            'success'
+          )
+        }
+      })
+    }
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+  </script>
+
 {% endblock %}
