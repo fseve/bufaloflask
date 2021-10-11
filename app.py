@@ -11,11 +11,12 @@ app.secret_key = os.urandom(24)
 @app.route('/login', methods=['GET', 'POST'])
 def index():
     form = LoginForm()
-    if(form.validate_on_submit()):
+    if (form.validate_on_submit()):
         correo = form.correo.data
         return f"Bienvenido{correo}"
     return render_template('login.html', form=form)
 
-@app.route('/usuarios/crear')
+@app.route('/usuarios/crear', methods=['GET', 'POST'])
 def crearUsuarios():
-    return render_template('crear-usuario.html')
+    form = CrearUsuarioForm()
+    return render_template('crear-usuario.html', form=form)
