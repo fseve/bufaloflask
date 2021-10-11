@@ -43,3 +43,21 @@ def editarUsuarios():
     form.salario.data = 1500000
     form.rol.data = 'usuarioFinal'
     return render_template('editar-usuario.html', form=form)
+
+@app.route('/usuarios/ver', methods=['GET', 'POST'])
+def verUsuarios():
+    form = VerUsuarioForm()
+    form.id.data = 183
+    form.correo.data = 'johndoe@mail.com'
+    form.nombres.data = 'John'
+    form.apellidos.data = 'Doe'
+    form.edad.data = 30
+    form.genero.data = 'masculino'
+    form.cargo.data = 'Gerente'
+    form.fechaIngreso.data = dt.datetime(2021, 9, 20)
+    form.tipoContrato.data = 'Contrato a término fijo'
+    form.fechaTerminoContrato.data = dt.datetime(2021, 11, 30)
+    form.dependencia.data = 'Talento Humano'
+    form.salario.data = 1500000
+    form.rol.data = 'usuarioFinal'
+    return render_template('ver-usuario.html', form=form)

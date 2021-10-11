@@ -43,22 +43,21 @@
 
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Crear usuario</h3>
+              <h3 class="card-title">Ver usuario</h3>
             </div>
-            <form action="" method="post">
-              {{ form.csrf_token }}
+            <form>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="correo">Correo electrónico</label>
-                      {{ form.correo(class_="form-control") }}
+                      <label for="id">ID</label>
+                      {{ form.id(class_="form-control") }}
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="password">Contraseña</label>
-                      {{ form.password(class_="form-control") }}
+                      <label for="correoElectronico">Correo electrónico</label>
+                      {{ form.correo(class_="form-control") }}
                     </div>
                   </div>
                 </div>
@@ -107,7 +106,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="tipoContrato">Tipo de contrato</label>
+                      <label for="tipoContrato">Tipo de Contrato</label>
                       {{ form.tipoContrato(class_="form-control") }}
                     </div>
                   </div>
@@ -143,7 +142,7 @@
               </div>
 
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary">Volver</button>
               </div>
             </form>
           </div>
