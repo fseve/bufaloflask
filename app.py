@@ -15,3 +15,7 @@ def index():
         correo = form.correo.data
         return f"Bienvenido{correo}"
     return render_template('login.html', form=form)
+
+@app.route('/usuarios/crear')
+def crearUsuarios():
+    return render_template('crear-usuario.html')
