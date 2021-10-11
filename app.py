@@ -107,3 +107,7 @@ def perfilUsuario():
     form.puntaje.data = 85
     form.comentarios.data = 'Ha realizado un desempeño sobresaliente.'
     return render_template('perfil-usuario.html', form=form)
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
