@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from forms.forms import *
 import datetime as dt
 
@@ -12,14 +12,29 @@ app.secret_key = os.urandom(24)
 @app.route('/login', methods=['GET', 'POST'])
 def index():
     form = LoginForm()
-    if (form.validate_on_submit()):
+    if (form.validate_on_submit() and request.method == 'POST'):
         correo = form.correo.data
-        return f"Bienvenido{correo}"
+        password = form.password.data
+        return f"Bienvenido: {correo}" + " Password: " + password
     return render_template('login.html', form=form)
 
 @app.route('/usuarios/crear', methods=['GET', 'POST'])
 def crearUsuarios():
     form = CrearUsuarioForm()
+    if (form.validate_on_submit() and request.method == 'POST'):
+        correo = form.correo.data
+        password = form.password.data
+        nombres = form.nombres.data
+        apellidos = form.apellidos.data
+        edad = form.edad.data
+        genero = form.genero.data
+        cargo = form.cargo.data
+        fechaIngreso = form.fechaIngreso.data
+        tipoContrato = form.tipoContrato.data
+        fechaTerminoContrato = form.fechaTerminoContrato.data
+        dependencia = form.dependencia.data
+        salario = form.salario.data
+        rol = form.rol.data
     return render_template('crear-usuario.html', form=form)
 
 @app.route('/usuarios/listar')
