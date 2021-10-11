@@ -72,3 +72,23 @@ def generarRetroalimentacion():
     form.puntaje.data = 85
     form.comentarios.data = 'Ha realizado un desempeño sobresaliente.'
     return render_template('generar-retroalimentacion-usuario.html', form=form)
+
+@app.route('/usuarios/perfil', methods=['GET'])
+def perfilUsuario():
+    form = PerfilUsuarioForm()
+    form.id.data = 183
+    form.correo.data = 'johndoe@mail.com'
+    form.nombres.data = 'John'
+    form.apellidos.data = 'Doe'
+    form.edad.data = 30
+    form.genero.data = 'masculino'
+    form.cargo.data = 'Gerente'
+    form.fechaIngreso.data = dt.datetime(2021, 9, 20)
+    form.tipoContrato.data = 'Contrato a término fijo'
+    form.fechaTerminoContrato.data = dt.datetime(2021, 11, 30)
+    form.dependencia.data = 'Talento Humano'
+    form.salario.data = 1500000
+    form.rol.data = 'usuarioFinal'
+    form.puntaje.data = 85
+    form.comentarios.data = 'Ha realizado un desempeño sobresaliente.'
+    return render_template('perfil-usuario.html', form=form)
