@@ -44,7 +44,7 @@ def editarUsuarios():
     form.rol.data = 'usuarioFinal'
     return render_template('editar-usuario.html', form=form)
 
-@app.route('/usuarios/ver', methods=['GET', 'POST'])
+@app.route('/usuarios/ver', methods=['GET'])
 def verUsuarios():
     form = VerUsuarioForm()
     form.id.data = 183
@@ -61,3 +61,14 @@ def verUsuarios():
     form.salario.data = 1500000
     form.rol.data = 'usuarioFinal'
     return render_template('ver-usuario.html', form=form)
+
+@app.route('/usuarios/retroalimentacion', methods=['GET', 'POST'])
+def generarRetroalimentacion():
+    form = GenerarRetroalimentacionUsuarioForm()
+    form.id.data = 183
+    form.correo.data = 'johndoe@mail.com'
+    form.nombres.data = 'John'
+    form.apellidos.data = 'Doe'
+    form.puntaje.data = 85
+    form.comentarios.data = 'Ha realizado un desempeño sobresaliente.'
+    return render_template('generar-retroalimentacion-usuario.html', form=form)

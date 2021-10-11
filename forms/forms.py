@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, IntegerField, SelectField
 from wtforms.validators import DataRequired
 from wtforms.fields.html5 import EmailField, DateField
+from wtforms.widgets.core import TextArea
 from wtforms.widgets.html5 import NumberInput
 
 class LoginForm(FlaskForm):
@@ -52,3 +53,11 @@ class VerUsuarioForm(FlaskForm):
 	dependencia = StringField('Dependencia', render_kw={'readonly': True}, validators=[DataRequired(message="Este campo es requerido")])
 	salario = IntegerField('Salario', render_kw={'readonly': True}, widget=NumberInput(min=0, step=1), validators=[DataRequired(message="Este campo es requerido")])
 	rol = SelectField('Rol', render_kw={'readonly': True}, choices = [('usuarioFinal', 'Usuario final'), ('administrador', 'Administrador'), ('superAdministrador', 'SuperAdministrador')])
+
+class GenerarRetroalimentacionUsuarioForm(FlaskForm):
+	id = StringField('ID', render_kw={'readonly': True}, validators=[DataRequired(message="Este campo es requerido")])
+	correo = EmailField('Correo electrónico', render_kw={'readonly': True}, validators=[DataRequired(message="Este campo es requerido")])
+	nombres = StringField('Nombres', render_kw={'readonly': True}, validators=[DataRequired(message="Este campo es requerido")])
+	apellidos = StringField('Apellidos', render_kw={'readonly': True}, validators=[DataRequired(message="Este campo es requerido")])
+	puntaje = IntegerField('Puntaje', widget=NumberInput(min=0, max=100, step=1), validators=[DataRequired(message="Este campo es requerido")])
+	comentarios = StringField('Comentarios', widget=TextArea(), validators=[DataRequired(message="Este campo es requerido")])
