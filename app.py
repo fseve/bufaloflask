@@ -20,3 +20,7 @@ def index():
 def crearUsuarios():
     form = CrearUsuarioForm()
     return render_template('crear-usuario.html', form=form)
+
+@app.route('/usuarios/listar')
+def listarUsuarios():
+    return render_template('ver-listar-usuarios.html')
