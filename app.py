@@ -9,7 +9,6 @@ app.url_map.strict_slashes = False
 app.secret_key = os.urandom(24)
 
 
-@app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def index():
     form = LoginForm()
@@ -141,6 +140,7 @@ def perfilUsuario():
     form.comentarios.data = 'Ha realizado un desempeño sobresaliente.'
     return render_template('perfil-usuario.html', form=form)
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
     # Lógica para consultar la información que se renderiza en el dashboard
