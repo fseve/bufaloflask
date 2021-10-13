@@ -151,3 +151,8 @@ def listarUsuariosDummy():
     return jsonify(
         usuarios_dummy
     )
+
+@app.route('/usuarios/eliminar', methods=['POST'])
+def eliminarUsuarios():
+    # Lógica para eliminar un usuario de la base de datos
+    return 'Eliminar usuario'
