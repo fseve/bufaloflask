@@ -140,7 +140,7 @@ def perfilUsuario():
     form.comentarios.data = 'Ha realizado un desempeño sobresaliente.'
     return render_template('perfil-usuario.html', form=form)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
     # Lógica para consultar la información que se renderiza en el dashboard
