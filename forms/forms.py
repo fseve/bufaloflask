@@ -78,3 +78,27 @@ class PerfilUsuarioForm(FlaskForm):
 	rol = SelectField('Rol', render_kw={'readonly': True}, choices = [('usuarioFinal', 'Usuario final'), ('administrador', 'Administrador'), ('superAdministrador', 'SuperAdministrador')])
 	puntaje = IntegerField('Puntaje', render_kw={'readonly': True}, widget=NumberInput(min=0, max=100, step=1), validators=[DataRequired(message="Este campo es requerido")])
 	comentarios = StringField('Comentarios', render_kw={'readonly': True}, widget=TextArea(), validators=[DataRequired(message="Este campo es requerido")])
+
+# Formularios para géneros
+class GenerosForm(FlaskForm):
+	id = StringField('ID', render_kw={'readonly': True})
+	descripcion = StringField('Descripción', validators=[DataRequired(message="Este campo es requerido")])
+# END Formularios para géneros
+
+# Formularios para cargos
+class CargosForm(FlaskForm):
+	id = StringField('ID', render_kw={'readonly': True})
+	descripcion = StringField('Descripción', validators=[DataRequired(message="Este campo es requerido")])
+# END Formularios para cargos
+
+# Formularios para tiposContratos
+class TiposContratosForm(FlaskForm):
+	id = StringField('ID', render_kw={'readonly': True})
+	descripcion = StringField('Descripción', validators=[DataRequired(message="Este campo es requerido")])
+# END Formularios para tiposContratos
+
+# Formularios para dependencias
+class DependenciasForm(FlaskForm):
+	id = StringField('ID', render_kw={'readonly': True})
+	descripcion = StringField('Descripción', validators=[DataRequired(message="Este campo es requerido")])
+# END Formularios para dependencias

@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+
+{% block headblock %}
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{url_for('static', filename='dist/css/adminlte.min.css')}}">
+{% endblock %}
+
+{% block contentblock %}
+  <div class="content-wrapper contenedor">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1></h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"></h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Editar tipo de contrato</h3>
+            </div>
+            <form action="" method="post">
+              {{ form.csrf_token }}
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="id">ID</label>
+                      {{ form.id(class_="form-control") }}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="descripcion">Descripción</label>
+                      {{ form.descripcion(class_="form-control") }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary float-right">Guardar</button>
+                <a class="btn btn-primary" href="{{'/cargos/listar'}}">Volver</a>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+  </div>
+{% endblock %}
+
+{% block scriptsblock %}
+  <!-- jQuery -->
+  <script src="{{url_for('static', filename='plugins/jquery/jquery.min.js')}}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{url_for('static', filename='dist/js/adminlte.min.js')}}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{{url_for('static', filename='dist/js/demo.js')}}"></script>
+{% endblock %}

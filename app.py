@@ -3,11 +3,20 @@ from flask import Flask, render_template, request, jsonify
 from forms.forms import *
 import datetime as dt
 from usuarios_dummy import *
+from db import *
+from generos import generos_api
+from cargos import cargos_api
+from tiposContratos import tiposContratos_api
+from dependencias import dependencias_api
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.secret_key = os.urandom(24)
 
+app.register_blueprint(generos_api)
+app.register_blueprint(cargos_api)
+app.register_blueprint(tiposContratos_api)
+app.register_blueprint(dependencias_api)
 
 @app.route('/login', methods=['GET', 'POST'])
 def index():
@@ -36,6 +45,13 @@ def crearUsuarios():
         dependencia = form.dependencia.data
         salario = form.salario.data
         rol = form.rol.data
+
+        sql = 'INSERT INTO usuarios (correo, password, nombres, apellidos, edad, genero, cargo, fechaIngreso, tipoContrato, fechaTerminoContrato, dependencia, salario, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+
+        db = get_db()
+        db.execute(sql, (correo, password, nombres, apellidos, edad, genero, cargo, fechaIngreso, tipoContrato, fechaTerminoContrato, dependencia, salario, rol))
+        db.commit()
+
         return f"Crear usuario: {correo}" + " Password: " + password
         # Lógica para crear un usuario en base de datos
     return render_template('crear-usuario.html', form=form)

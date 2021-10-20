@@ -1,0 +1,216 @@
+{% extends 'layout.html' %}
+
+{% block headblock %}
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/toastr/toastr.min.css')}}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{url_for('static', filename='dist/css/adminlte.min.css')}}">
+{% endblock %}
+
+{% block contentblock %}
+  <div class="content-wrapper contenedor">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="float-left">Listado de cargos</h1>
+          </div>
+          <div class="col-sm-6">
+            <a class="btn btn-success float-right" href="{{'/cargos/crear'}}">Crear cargo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body table-responsive">
+                <table class="table table-hover text-nowrap" id="tabla">
+                  <thead>
+                    <tr class="text-center">
+                      <th>ID</th>
+                      <th>Descripción</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+{% endblock %}
+
+{% block scriptsblock %}
+  <!-- jQuery -->
+  <script src="{{url_for('static', filename='plugins/jquery/jquery.min.js')}}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- SweetAlert2 -->
+  <script src="{{url_for('static', filename='plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+  <!-- Toastr -->
+  <script src="{{url_for('static', filename='plugins/toastr/toastr.min.js')}}"></script>
+  <!-- DataTables  & Plugins -->
+  <script src="{{url_for('static', filename='plugins/datatables/jquery.dataTables.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/jszip/jszip.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/pdfmake/pdfmake.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/pdfmake/vfs_fonts.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+  <script src="{{url_for('static', filename='plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{url_for('static', filename='dist/js/adminlte.min.js')}}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{{url_for('static', filename='dist/js/demo.js')}}"></script>
+
+  <script type="text/javascript">
+
+    let tabla;
+
+    function onClickEliminar (id) {
+      Swal.fire({
+        title: '¿Desea eliminar este registro? ',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        showCancelButton: true,
+        cancelButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: '/cargos/eliminar',
+            type: 'POST',
+            data: { 'id': id },
+            success: function(response) {
+              if (response == 'True') {
+                Swal.fire(
+                  '¡Eliminado!',
+                  'El registro ha sido eliminado correctamente.',
+                  'success'
+                );
+                mostrarDatos();
+              } else {
+                Swal.fire(
+                  '¡Error!',
+                  'Ha ocurrido un error, intente nuevamente.',
+                  'error'
+                )
+              }
+            },
+            error: function(error) {
+              Swal.fire(
+                '¡Error!',
+                'Ha ocurrido un error, intente nuevamente.',
+                'error'
+              )
+            },
+          });
+        }
+      })
+    }
+
+    function mostrarDatos() {
+      if (tabla) {
+        tabla.destroy();
+      }
+      tabla = $('#tabla').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "language": {
+          "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+        },
+        "columnDefs": [
+          { "orderable": false, "targets": 2 },
+        ],
+        "ajax": {
+          "url": "/cargos/obtener",
+          "type": "GET",
+          "dataType": "json",
+          "dataSrc": ""
+        },
+        "columns": [
+          { "data": "id" },
+          { "data": "descripcion" },
+          {
+            "data": "id",
+            render: function(id, type) {
+              return `
+                <div class="btn-group">
+                  <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" href="{{'/cargos/editar/${id}'}}">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return onClickEliminar(${id});">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </div>`;
+            }
+          }
+        ]
+      });
+    };
+
+    $(document).ready(function() {
+      mostrarDatos();
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    });
+
+  </script>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        {{ message }}
+        <script type="text/javascript">
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+          });
+
+          let mensajeMostrar = '';
+          mensajeMostrar = '{{ message | safe }}'
+          if (mensajeMostrar) {
+            Toast.fire({
+              icon: 'success',
+              title: mensajeMostrar
+            })
+          }
+        </script>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+{% endblock %}
