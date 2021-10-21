@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint, request, redirect, flash, session, jsonify
-from db import *
-from forms.forms import LoginForm
 from werkzeug.security import check_password_hash
+from database.db import get_db
+from forms.forms import LoginForm
 from utils.utils import validarLogin, validarAutorizacion
 
 login_api = Blueprint('login_api', __name__)

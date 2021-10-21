@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, request, redirect, flash
-from db import *
+from database.db import get_db
 from forms.forms import GenerarRetroalimentacionUsuarioForm
 from utils.utils import validarLogin, validarAutorizacion
 

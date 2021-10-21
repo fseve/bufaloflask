@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint, redirect, request, session
-from db import *
-from forms.forms import PerfilUsuarioForm
+from database.db import get_db
 import datetime as dt
+from forms.forms import PerfilUsuarioForm
 from utils.utils import validarLogin, validarAutorizacion
 
 perfil_api = Blueprint('perfil_api', __name__)

@@ -1,8 +1,8 @@
 from flask import render_template, Blueprint, jsonify, request, redirect, flash, session
-from db import *
-from forms.forms import CrearUsuarioForm, EditarUsuarioForm, VerUsuarioForm
-import datetime as dt
 from werkzeug.security import generate_password_hash
+from database.db import get_db
+import datetime as dt
+from forms.forms import CrearUsuarioForm, EditarUsuarioForm, VerUsuarioForm
 from utils.utils import validarLogin, validarAutorizacion
 
 usuarios_api = Blueprint('usuarios_api', __name__)

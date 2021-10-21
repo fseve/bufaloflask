@@ -1,6 +1,6 @@
-from functools import wraps
 from flask import redirect, session, request
-from db import *
+from functools import wraps
+from database.db import get_db
 
 def validarLogin(f):
     @wraps(f)

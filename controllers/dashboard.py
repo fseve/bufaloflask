@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, request
-from db import *
+from database.db import get_db
 from utils.utils import validarLogin, validarAutorizacion
 
 dashboard_api = Blueprint('dashboard_api', __name__)

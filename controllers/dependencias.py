@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, jsonify, request, redirect, flash
-from db import *
+from database.db import get_db
 from forms.forms import DependenciasForm
 from utils.utils import validarLogin, validarAutorizacion
 
