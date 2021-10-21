@@ -57,5 +57,5 @@ def perfilUsuario():
                 return redirect('/usuarios/listar')
         elif (request.method == 'POST'):
             return redirect('/usuarios/listar')
-    except Error:
+    except Exception:
         return redirect('/usuarios/listar')

@@ -29,7 +29,7 @@ def obtenerGeneros():
         return jsonify(
             generos
         )
-    except Error:
+    except Exception:
         generos = []
         return jsonify(
             generos
@@ -53,7 +53,7 @@ def crearGeneros():
             flash('Registro creado correctamente')
             return redirect('/generos/listar')
         return render_template('generos/generos-crear.html', form=form)
-    except Error:
+    except Exception:
         return redirect('/generos/listar')
 
 @generos_api.route('/generos/editar/<int:id>', methods=['GET', 'POST'])
@@ -85,7 +85,7 @@ def editarGeneros(id):
             db.commit()
             flash('Registro actualizado correctamente')
             return redirect('/generos/listar')
-    except Error:
+    except Exception:
         return redirect('/generos/listar')
 
 @generos_api.route('/generos/eliminar', methods=['POST'])
@@ -101,5 +101,5 @@ def eliminarUsuarios():
         if result > 0:
             return 'True'
         return 'False'
-    except Error:
+    except Exception:
         return 'False'

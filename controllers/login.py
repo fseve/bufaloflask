@@ -48,7 +48,7 @@ def login():
             return render_template('login/login.html', form=form)
         else:
             return redirect('/')
-    except Error:
+    except Exception:
         session.clear()
         return redirect('/login')
 
@@ -88,7 +88,7 @@ def obtenerOpcionesMenu():
         return jsonify(
             opcionesMenu
         )
-    except Error:
+    except Exception:
         opcionesMenu = []
         return jsonify(
             opcionesMenu

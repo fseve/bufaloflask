@@ -29,7 +29,7 @@ def obtenerCargos():
         return jsonify(
             cargos
         )
-    except Error:
+    except Exception:
         cargos = []
         return jsonify(
             cargos
@@ -53,7 +53,7 @@ def crearCargos():
             flash('Registro creado correctamente')
             return redirect('/cargos/listar')
         return render_template('cargos/cargos-crear.html', form=form)
-    except Error:
+    except Exception:
         return redirect('/cargos/listar')
 
 @cargos_api.route('/cargos/editar/<int:id>', methods=['GET', 'POST'])
@@ -85,7 +85,7 @@ def editarCargos(id):
             db.commit()
             flash('Registro actualizado correctamente')
             return redirect('/cargos/listar')
-    except Error:
+    except Exception:
         return redirect('/cargos/listar')
 
 @cargos_api.route('/cargos/eliminar', methods=['POST'])
@@ -101,5 +101,5 @@ def eliminarCargos():
         if result > 0:
             return 'True'
         return 'False'
-    except Error:
+    except Exception:
         return 'False'

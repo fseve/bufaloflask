@@ -61,7 +61,7 @@ def obtenerUsuarios():
         return jsonify(
             usuarios
         )
-    except Error:
+    except Exception:
         usuarios = []
         return jsonify(
             usuarios
@@ -115,7 +115,7 @@ def verUsuarios(id):
                 return redirect('/usuarios/listar')
         elif (request.method == 'POST'):
             return redirect('/usuarios/listar')
-    except Error:
+    except Exception:
         return redirect('/usuarios/listar')
 
 @usuarios_api.route('/usuarios/crear', methods=['GET', 'POST'])
@@ -155,6 +155,17 @@ def crearUsuarios():
             salario = form.salario.data
             rol = int(form.rol.data)
 
+            sql = f'SELECT id, correo FROM {nombreTabla} WHERE correo = ?'
+
+            db = get_db()
+            cursorObj = db.cursor()
+            cursorObj.execute(sql, [correo])
+            datos = cursorObj.fetchall()
+
+            if (len(datos) > 0):
+                flash(f'El correo electrónico {datos[0][1]} ya existe en la base de datos')
+                return render_template('/usuarios/crear-usuario.html', form=form)
+
             sql = 'INSERT INTO usuarios (correo, password, nombres, apellidos, edad, idGenero, idCargo, fechaIngreso, idTipoContrato, fechaTerminoContrato, idDependencia, salario, idRol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 
             db = get_db()
@@ -165,7 +176,7 @@ def crearUsuarios():
             return redirect('/usuarios/listar')
 
         return render_template('/usuarios/crear-usuario.html', form=form)
-    except Error:
+    except Exception:
         return redirect('/usuarios/listar')
 
 @usuarios_api.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
@@ -246,6 +257,18 @@ def editarUsuarios(id):
             salario = form.salario.data
             rol = int(form.rol.data)
 
+            sql = f'SELECT id, correo FROM {nombreTabla} WHERE correo = ?'
+
+            db = get_db()
+            cursorObj = db.cursor()
+            cursorObj.execute(sql, [correo])
+            datos = cursorObj.fetchall()
+
+            if (len(datos) > 0):
+                if (int(datos[0][0]) != int(id)):
+                    flash(f'El correo electrónico {datos[0][1]} ya existe en la base de datos')
+                    return redirect(f'/usuarios/editar/{id}')
+
             sql = f'UPDATE {nombreTabla} SET correo = ?, nombres = ?, apellidos = ?, ' \
                 + 'edad = ?, idGenero = ?, idCargo = ?, fechaIngreso = ?, ' \
                 + 'idTipoContrato = ?, fechaTerminoContrato = ?, idDependencia = ?, salario = ?, idRol = ? ' \
@@ -258,7 +281,7 @@ def editarUsuarios(id):
             return redirect('/usuarios/listar')
         else:
             return redirect('/usuarios/listar')
-    except Error:
+    except Exception:
         return redirect('/usuarios/listar')
 
 @usuarios_api.route('/usuarios/eliminar', methods=['POST'])
@@ -274,7 +297,7 @@ def eliminarUsuarios():
         if result > 0:
             return 'True'
         return 'False'
-    except Error:
+    except Exception:
         return 'False'
 
 def obtenerDatosSelectField(nombreTabla = ''):
@@ -286,7 +309,7 @@ def obtenerDatosSelectField(nombreTabla = ''):
         datos = cursorObj.fetchall()
 
         return datos
-    except Error:
+    except Exception:
         datos = []
         return datos
 
@@ -307,6 +330,6 @@ def obtenerRoles():
         datos = cursorObj.fetchall()
 
         return datos
-    except Error:
+    except Exception:
         datos = []
         return datos

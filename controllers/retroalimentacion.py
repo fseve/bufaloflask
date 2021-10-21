@@ -46,5 +46,5 @@ def generarRetroalimentacion(id):
             db.commit()
             flash('Retroalimentación almacenada correctamente')
             return redirect('/usuarios/listar')
-    except Error:
+    except Exception:
         return redirect('/usuarios/listar')

@@ -47,5 +47,5 @@ def dashboard():
         elif (request.method == 'POST'):
             return redirect('/')
 
-    except Error:
+    except Exception:
         return redirect('/')

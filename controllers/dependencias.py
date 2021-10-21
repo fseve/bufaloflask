@@ -29,7 +29,7 @@ def obtenerDependencias():
         return jsonify(
             dependencias
         )
-    except Error:
+    except Exception:
         dependencias = []
         return jsonify(
             dependencias
@@ -53,7 +53,7 @@ def crearDependencias():
             flash('Registro creado correctamente')
             return redirect('/dependencias/listar')
         return render_template('dependencias/dependencias-crear.html', form=form)
-    except Error:
+    except Exception:
         return redirect('/dependencias/listar')
 
 @dependencias_api.route('/dependencias/editar/<int:id>', methods=['GET', 'POST'])
@@ -85,7 +85,7 @@ def editarDependencias(id):
             db.commit()
             flash('Registro actualizado correctamente')
             return redirect('/dependencias/listar')
-    except Error:
+    except Exception:
         return redirect('/dependencias/listar')
 
 @dependencias_api.route('/dependencias/eliminar', methods=['POST'])
@@ -101,5 +101,5 @@ def eliminarUsuarios():
         if result > 0:
             return 'True'
         return 'False'
-    except Error:
+    except Exception:
         return 'False'

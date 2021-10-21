@@ -29,7 +29,7 @@ def obtenerTiposContratos():
         return jsonify(
             tiposContratos
         )
-    except Error:
+    except Exception:
         tiposContratos = []
         return jsonify(
             tiposContratos
@@ -53,7 +53,7 @@ def crearTiposContratos():
             flash('Registro creado correctamente')
             return redirect('/tiposcontratos/listar')
         return render_template('tiposcontratos/tiposcontratos-crear.html', form=form)
-    except Error:
+    except Exception:
         return redirect('/tiposcontratos/listar')
 
 @tiposContratos_api.route('/tiposcontratos/editar/<int:id>', methods=['GET', 'POST'])
@@ -85,7 +85,7 @@ def editarTiposContratos(id):
             db.commit()
             flash('Registro actualizado correctamente')
             return redirect('/tiposcontratos/listar')
-    except Error:
+    except Exception:
         return redirect('/tiposcontratos/listar')
 
 @tiposContratos_api.route('/tiposcontratos/eliminar', methods=['POST'])
@@ -101,5 +101,5 @@ def eliminarUsuarios():
         if result > 0:
             return 'True'
         return 'False'
-    except Error:
+    except Exception:
         return 'False'
