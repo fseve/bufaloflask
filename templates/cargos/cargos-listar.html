@@ -191,7 +191,6 @@
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       {% for message in messages %}
-        {{ message }}
         <script type="text/javascript">
           const Toast = Swal.mixin({
             toast: true,

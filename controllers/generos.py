@@ -1,17 +1,22 @@
 from flask import render_template, Blueprint, jsonify, request, redirect, flash
 from db import *
-from forms.forms import TiposContratosForm
+from forms.forms import GenerosForm
+from utils.utils import validarLogin, validarAutorizacion
 
-tiposContratos_api = Blueprint('tiposContratos_api', __name__)
-nombreTabla = 'tiposContratos'
+generos_api = Blueprint('generos_api', __name__)
+nombreTabla = 'generos'
 
-@tiposContratos_api.route('/tiposcontratos', methods=['GET'])
-@tiposContratos_api.route('/tiposcontratos/listar', methods=['GET'])
-def listarTiposContratos():
-    return render_template('/tiposcontratos/tiposcontratos-listar.html')
+@generos_api.route('/generos', methods=['GET'])
+@generos_api.route('/generos/listar', methods=['GET'])
+@validarLogin
+@validarAutorizacion
+def listarGeneros():
+    return render_template('/generos/generos-listar.html')
 
-@tiposContratos_api.route('/tiposcontratos/obtener', methods=['GET'])
-def obtenerTiposContratos():
+@generos_api.route('/generos/obtener', methods=['GET'])
+@validarLogin
+@validarAutorizacion
+def obtenerGeneros():
     try:
         db = get_db()
         sql = f'SELECT * FROM {nombreTabla}'
@@ -19,21 +24,23 @@ def obtenerTiposContratos():
         cursorObj.execute(sql)
         datos = cursorObj.fetchall()
 
-        tiposContratos = [{'id': x[0], 'descripcion': x[1]} for x in datos]
+        generos = [{'id': x[0], 'descripcion': x[1]} for x in datos]
 
         return jsonify(
-            tiposContratos
+            generos
         )
     except Error:
-        tiposContratos = []
+        generos = []
         return jsonify(
-            tiposContratos
+            generos
         )
 
-@tiposContratos_api.route('/tiposcontratos/crear', methods=['GET', 'POST'])
-def crearTiposContratos():
+@generos_api.route('/generos/crear', methods=['GET', 'POST'])
+@validarLogin
+@validarAutorizacion
+def crearGeneros():
     try:
-        form = TiposContratosForm()
+        form = GenerosForm()
         if (form.validate_on_submit() and request.method == 'POST'):
             descripcion = form.descripcion.data
 
@@ -44,15 +51,17 @@ def crearTiposContratos():
             db.commit()
 
             flash('Registro creado correctamente')
-            return redirect('/tiposcontratos/listar')
-        return render_template('tiposcontratos/tiposcontratos-crear.html', form=form)
+            return redirect('/generos/listar')
+        return render_template('generos/generos-crear.html', form=form)
     except Error:
-        return redirect('/tiposcontratos/listar')
+        return redirect('/generos/listar')
 
-@tiposContratos_api.route('/tiposcontratos/editar/<int:id>', methods=['GET', 'POST'])
-def editarTiposContratos(id):
+@generos_api.route('/generos/editar/<int:id>', methods=['GET', 'POST'])
+@validarLogin
+@validarAutorizacion
+def editarGeneros(id):
     try:
-        form = TiposContratosForm()
+        form = GenerosForm()
         if (request.method == 'GET'):
             db = get_db()
             sql = f'SELECT * FROM {nombreTabla} WHERE id = ?'
@@ -64,9 +73,9 @@ def editarTiposContratos(id):
             if (len(datos) > 0):
                 form.id.data = datos[0][0]
                 form.descripcion.data = datos[0][1]
-                return render_template('tiposcontratos/tiposcontratos-editar.html', form=form)
+                return render_template('generos/generos-editar.html', form=form)
             else:
-                return redirect('/tiposcontratos/listar')
+                return redirect('/generos/listar')
         elif (form.validate_on_submit() and request.method == 'POST'):
             descripcion = form.descripcion.data
             sql = f'UPDATE {nombreTabla} SET descripcion = ? WHERE id = ?'
@@ -75,11 +84,13 @@ def editarTiposContratos(id):
             db.execute(sql, [descripcion, id])
             db.commit()
             flash('Registro actualizado correctamente')
-            return redirect('/tiposcontratos/listar')
+            return redirect('/generos/listar')
     except Error:
-        return redirect('/tiposcontratos/listar')
+        return redirect('/generos/listar')
 
-@tiposContratos_api.route('/tiposcontratos/eliminar', methods=['POST'])
+@generos_api.route('/generos/eliminar', methods=['POST'])
+@validarLogin
+@validarAutorizacion
 def eliminarUsuarios():
     try:
         id = request.form['id']

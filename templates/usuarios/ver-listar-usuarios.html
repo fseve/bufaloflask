@@ -23,7 +23,10 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Listar Usuarios</h1>
+            <h1 class="float-left">Listado de usuarios</h1>
+          </div>
+          <div class="col-sm-6">
+            <a class="btn btn-success float-right" href="{{'/usuarios/crear'}}">Crear usuario</a>
           </div>
           <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -107,9 +110,12 @@
   <script src="{{url_for('static', filename='dist/js/demo.js')}}"></script>
 
   <script type="text/javascript">
+
+    let tabla;
+
     function onClickEliminar (id) {
       Swal.fire({
-        title: '¿Desea eliminar este usuario? ' + id,
+        title: '¿Desea eliminar este registro?',
         text: "Esta acción no se puede deshacer",
         icon: 'warning',
         confirmButtonColor: '#d33',
@@ -119,71 +125,124 @@
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            '¡Eliminado!',
-            'El usuario ha sido eliminado correctamente.',
-            'success'
-          )
+          $.ajax({
+            url: '/usuarios/eliminar',
+            type: 'POST',
+            data: { 'id': id },
+            success: function(response) {
+              if (response == 'True') {
+                Swal.fire(
+                  '¡Eliminado!',
+                  'El registro ha sido eliminado correctamente.',
+                  'success'
+                );
+                mostrarDatos();
+              } else {
+                Swal.fire(
+                  '¡Error!',
+                  'Ha ocurrido un error, intente nuevamente.',
+                  'error'
+                )
+              }
+            },
+            error: function(error) {
+              Swal.fire(
+                '¡Error!',
+                'Ha ocurrido un error, intente nuevamente.',
+                'error'
+              )
+            },
+          });
         }
       })
     }
 
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-
-    $(function () {
-    $('#tabla').DataTable({
-      "paging": true,
-      "lengthChange": true,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-      "language": {
-        "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
-      },
-      "columnDefs": [
-        { "orderable": false, "targets": 6 },
-      ],
-      "ajax": {
-        "url": "/listar-usuarios-dummy",
-        "type": "GET",
-        "dataType": "json",
-        "dataSrc": ""
-      },
-      "columns": [
-        { "data": "ID" },
-        { "data": "Correo" },
-        { "data": "Nombres" },
-        { "data": "Apellidos" },
-        { "data": "Cargo" },
-        { "data": "Salario" },
-        {
-          "data": "ID",
-          render: function(id, type) {
-            return `
-              <div class="btn-group">
-                <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver detalle" href="{{'/usuarios/ver/${id}'}}">
-                  <i class="fas fa-eye"></i>
-                </a>
-                <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Generar retroalimentación" href="{{'/usuarios/retroalimentacion/${id}'}}"">
-                  <i class="fas fa-comment-dots"></i>
-                </a>
-                <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" href="{{'/usuarios/editar/${id}'}}">
-                  <i class="fas fa-edit"></i>
-                </a>
-                <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return onClickEliminar(${id});">
-                  <i class="fas fa-trash"></i>
-                </a>
-              </div>`;
+    function mostrarDatos() {
+      if (tabla) {
+        tabla.destroy();
+      }
+      tabla = $('#tabla').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "language": {
+          "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+        },
+        "columnDefs": [
+          { "orderable": false, "targets": 6 },
+        ],
+        "ajax": {
+          "url": "/usuarios/obtener",
+          "type": "GET",
+          "dataType": "json",
+          "dataSrc": ""
+        },
+        "columns": [
+          { "data": "id" },
+          { "data": "correo" },
+          { "data": "nombres" },
+          { "data": "apellidos" },
+          { "data": "cargo" },
+          { "data": "salario" },
+          {
+            "data": "id",
+            render: function(id, type) {
+              return `
+                <div class="btn-group">
+                  <a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver detalle" href="{{'/usuarios/ver/${id}'}}">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Generar retroalimentación" href="{{'/usuarios/retroalimentacion/${id}'}}"">
+                    <i class="fas fa-comment-dots"></i>
+                  </a>
+                  <a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" href="{{'/usuarios/editar/${id}'}}">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return onClickEliminar(${id});">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </div>`;
+            }
           }
-        }
-      ]
+        ]
+      });
+    };
+
+    $(document).ready(function() {
+      mostrarDatos();
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
     });
-  });
 
   </script>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <script type="text/javascript">
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+          });
+
+          let mensajeMostrar = '';
+          mensajeMostrar = '{{ message | safe }}'
+          if (mensajeMostrar) {
+            Toast.fire({
+              icon: 'success',
+              title: mensajeMostrar
+            })
+          }
+        </script>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
 {% endblock %}

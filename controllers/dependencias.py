@@ -1,17 +1,22 @@
 from flask import render_template, Blueprint, jsonify, request, redirect, flash
 from db import *
-from forms.forms import CargosForm
+from forms.forms import DependenciasForm
+from utils.utils import validarLogin, validarAutorizacion
 
-cargos_api = Blueprint('cargos_api', __name__)
-nombreTabla = 'cargos'
+dependencias_api = Blueprint('dependencias_api', __name__)
+nombreTabla = 'dependencias'
 
-@cargos_api.route('/cargos', methods=['GET'])
-@cargos_api.route('/cargos/listar', methods=['GET'])
-def listarCargos(mensaje = ''):
-    return render_template('/cargos/cargos-listar.html', mensaje = mensaje)
+@dependencias_api.route('/dependencias', methods=['GET'])
+@dependencias_api.route('/dependencias/listar', methods=['GET'])
+@validarLogin
+@validarAutorizacion
+def listarDependencias(mensaje = ''):
+    return render_template('/dependencias/dependencias-listar.html', mensaje = mensaje)
 
-@cargos_api.route('/cargos/obtener', methods=['GET'])
-def obtenerCargos():
+@dependencias_api.route('/dependencias/obtener', methods=['GET'])
+@validarLogin
+@validarAutorizacion
+def obtenerDependencias():
     try:
         db = get_db()
         sql = f'SELECT * FROM {nombreTabla}'
@@ -19,21 +24,23 @@ def obtenerCargos():
         cursorObj.execute(sql)
         datos = cursorObj.fetchall()
 
-        cargos = [{'id': x[0], 'descripcion': x[1]} for x in datos]
+        dependencias = [{'id': x[0], 'descripcion': x[1]} for x in datos]
 
         return jsonify(
-            cargos
+            dependencias
         )
     except Error:
-        cargos = []
+        dependencias = []
         return jsonify(
-            cargos
+            dependencias
         )
 
-@cargos_api.route('/cargos/crear', methods=['GET', 'POST'])
-def crearCargos():
+@dependencias_api.route('/dependencias/crear', methods=['GET', 'POST'])
+@validarLogin
+@validarAutorizacion
+def crearDependencias():
     try:
-        form = CargosForm()
+        form = DependenciasForm()
         if (form.validate_on_submit() and request.method == 'POST'):
             descripcion = form.descripcion.data
 
@@ -44,15 +51,17 @@ def crearCargos():
             db.commit()
 
             flash('Registro creado correctamente')
-            return redirect('/cargos/listar')
-        return render_template('cargos/cargos-crear.html', form=form)
+            return redirect('/dependencias/listar')
+        return render_template('dependencias/dependencias-crear.html', form=form)
     except Error:
-        return redirect('/cargos/listar')
+        return redirect('/dependencias/listar')
 
-@cargos_api.route('/cargos/editar/<int:id>', methods=['GET', 'POST'])
-def editarCargos(id):
+@dependencias_api.route('/dependencias/editar/<int:id>', methods=['GET', 'POST'])
+@validarLogin
+@validarAutorizacion
+def editarDependencias(id):
     try:
-        form = CargosForm()
+        form = DependenciasForm()
         if (request.method == 'GET'):
             db = get_db()
             sql = f'SELECT * FROM {nombreTabla} WHERE id = ?'
@@ -64,9 +73,9 @@ def editarCargos(id):
             if (len(datos) > 0):
                 form.id.data = datos[0][0]
                 form.descripcion.data = datos[0][1]
-                return render_template('cargos/cargos-editar.html', form=form)
+                return render_template('dependencias/dependencias-editar.html', form=form)
             else:
-                return redirect('/cargos/listar')
+                return redirect('/dependencias/listar')
         elif (form.validate_on_submit() and request.method == 'POST'):
             descripcion = form.descripcion.data
             sql = f'UPDATE {nombreTabla} SET descripcion = ? WHERE id = ?'
@@ -75,11 +84,13 @@ def editarCargos(id):
             db.execute(sql, [descripcion, id])
             db.commit()
             flash('Registro actualizado correctamente')
-            return redirect('/cargos/listar')
+            return redirect('/dependencias/listar')
     except Error:
-        return redirect('/cargos/listar')
+        return redirect('/dependencias/listar')
 
-@cargos_api.route('/cargos/eliminar', methods=['POST'])
+@dependencias_api.route('/dependencias/eliminar', methods=['POST'])
+@validarLogin
+@validarAutorizacion
 def eliminarUsuarios():
     try:
         id = request.form['id']
