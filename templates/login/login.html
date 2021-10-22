@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Búfalo</title>
+  <link rel="icon" type="image/png" href="{{url_for('static', filename='dist/img/AdminLTELogo.png')}}">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -18,9 +19,21 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{url_for('static', filename='dist/css/adminlte.min.css')}}">
 
+  <style>
+    .bg-image {
+      background-image: url('static/dist/img/logo.jpg');
+      background-size: cover;
+      background-position: center center;
+    }
+    .login-shadow {
+      -webkit-box-shadow: 25px 22px 6px -15px rgba(0, 123, 255, 0.5), 25px 22px 6px -15px rgba(0, 123, 255, 0.5), -25px -22px 6px -15px rgba(112,112,112,0.6), -25px -22px 6px -15px rgba(112,112,112,0.6);
+      box-shadow: 25px 22px 6px -15px rgba(0, 123, 255, 0.5), 25px 22px 6px -15px rgba(0, 123, 255, 0.5), -25px -22px 6px -15px rgba(112,112,112,0.6), -25px -22px 6px -15px rgba(112,112,112,0.6);
+    }
+  </style>
+
 </head>
-<body class="hold-transition login-page">
-  <div class="login-box">
+<body class="hold-transition login-page bg-image">
+  <div class="login-box login-shadow">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
         <a href="#" class="h1"><b>Búfalo</b>
